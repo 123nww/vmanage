@@ -1,24 +1,5 @@
 import request from './request'
 
-// 1. 定义基础路径
-const BASE_URL = 'http://127.0.0.1:8888/api/private/v1/';
-
-
-/***** 登录界面接口 *********/
-// 1.获取手机验证码(GET)
-// Easy Mock 模拟发送验证码 
-// export const getPhoneCaptcha = (phoneNumber) => ajax(BASE_URL + 'send_code', {
-//     phoneNumber
-// });
-
-
-// // 3.账号密码登录(POST)
-// export const pwdLogin = (userName, pwd, captcha) => ajax(BASE_URL + 'login_pwd', {
-//     userName,
-//     pwd,
-//     captcha
-// }, 'POST');
-
 //账号密码登录(POST)
 export function pwdLogin(data) {
     return request({
@@ -84,6 +65,84 @@ export function updateById(id, data) {
 export function deleteUser(id) {
     return request({
         url: 'users/' + id,
+        method: 'DELETE'
+    })
+}
+
+//分配用户角色
+export function handleUserRight(id,data){
+    return request({
+        url: 'users/'+id+'/role',
+        method: 'PUT',
+        data: data
+    })
+}
+
+
+//获取所有的权限列表(type)
+export function getRightsList(type) {
+    return request({
+        url: 'rights/' + type,
+        method: 'GET'
+    })
+}
+
+
+//获取角色列表
+export function getRoleList() {
+    return request({
+        url: 'roles',
+        method: 'GET'
+    })
+}
+
+//添加角色
+export function addRole(data) {
+    return request({
+        url: 'roles',
+        method: 'POST',
+        data: data
+    })
+}
+
+//根据ID查询角色
+export function queryById(id) {
+    return request({
+        url: 'roles/' + id,
+        method: 'GET'
+    })
+}
+
+//修改角色
+export function updateRole(id, data) {
+    return request({
+        url: 'roles/' + id,
+        method: 'PUT',
+        data: data
+    })
+}
+
+//根据ID删除角色
+export function deleteRole(id){
+    return request({
+        url: 'roles/' + id,
+        method: 'DELETE'
+    })
+}
+
+//角色授权
+export function handleRole(roleId,data){
+    return request({
+        url: 'roles/'+roleId+'/rights',
+        method: 'POST',
+        data:data
+    })
+}
+
+//删除角色指定权限
+export function deleteRoleRights(roleId,rightId){
+    return request({
+        url: 'roles/'+roleId+'/rights/'+rightId,
         method: 'DELETE'
     })
 }

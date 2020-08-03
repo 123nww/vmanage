@@ -97,11 +97,11 @@ export default {
     //菜单数据
     async getMenuList() {
       const menumList = await getMenuList()
-      console.log(menumList)
+      //console.log(menumList)
       if (menumList.meta.status === 200) {
         this.menuList = menumList.data
       } else {
-        this.$message.error(menumList.meta.msg)
+        this.$message.error("获取菜单数据失败,"+menumList.meta.msg)
       }
     },
     //切换菜单

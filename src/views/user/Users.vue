@@ -50,7 +50,12 @@
             ></el-button>
             <!-- 文字显示 -->
             <el-tooltip effect="dark" content="分配角色" placement="top-start" :enterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+              <el-button
+                type="warning"
+                icon="el-icon-setting"
+                size="mini"
+                @click="handleDialog(scope.row)"
+              ></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -68,7 +73,7 @@
     </el-card>
 
     <!-- 添加用户对话框 -->
-    <el-dialog title="添加用户" :visible.sync="isAddDialog" width="50%" @close="addDialogClose">
+    <el-dialog title="添加用户" :visible.sync="isAddDialog" width="30%" @close="addDialogClose">
       <el-form :model="addUser" :rules="addUserRules" ref="ruleForm" label-width="70px">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="addUser.username"></el-input>
@@ -89,7 +94,7 @@
       </span>
     </el-dialog>
     <!-- 修改用户对话框 -->
-    <el-dialog title="修改用户" :visible.sync="isUpdataDialog" width="50%" @close="updateDialogClose">
+    <el-dialog title="修改用户" :visible.sync="isUpdataDialog" width="30%" @close="updateDialogClose">
       <el-form :model="updateUser" :rules="updateUserRules" ref="updateruleForm" label-width="70px">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="updateUser.username" :disabled="true"></el-input>
@@ -106,6 +111,28 @@
         <el-button type="primary" @click="updatevaildData">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 分配角色对话框 -->
+    <el-dialog title="分配角色" :visible.sync="isHandleDialog" width="50%" @close="handleDialogClose">
+      <div>
+        <p>当前用户: {{userInfo.username}}</p>
+        <p>当前角色: {{userInfo.role_name}}</p>
+        <p>
+          分配角色:
+          <el-select v-model="selectedRoleId" placeholder="请选择">
+            <el-option
+              v-for="item in rightList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="isHandleDialog = false">取 消</el-button>
+        <el-button type="primary" @click="handlevaildData">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -117,6 +144,8 @@ import {
   queryByIdUser,
   updateById,
   deleteUser,
+  getRoleList,
+  handleUserRight
 } from 'network/index'
 export default {
   name: 'User',
@@ -154,9 +183,13 @@ export default {
       total: 0,
       //用户体
       users: [],
-      //是否打开对话框1,添加2,修改用户
+      userInfo: {},
+      //是否打开对话框1,添加2,修改用户3.分配角色
       isAddDialog: false,
       isUpdataDialog: false,
+      isHandleDialog: false,
+      rightList:[],
+      selectedRoleId:'',
       //添加用户体
       addUser: {
         username: '',
@@ -241,7 +274,10 @@ export default {
     //校验表单数据
     vaildData() {
       this.$refs.ruleForm.validate(async (vaild) => {
-        if (!vaild) return
+        if (!vaild) {
+          this.isAddDialog = false
+          return
+        }
         const result = await addUser(this.addUser)
         if (result.meta.status === 201) {
           this.$message.success('添加用户成功')
@@ -266,7 +302,10 @@ export default {
     },
     updatevaildData() {
       this.$refs.updateruleForm.validate(async (vaild) => {
-        if (!vaild) return
+        if (!vaild) {
+          this.isUpdataDialog = false
+          return
+        }
         const update = {
           email: this.updateUser.email,
           mobile: this.updateUser.mobile,
@@ -295,18 +334,48 @@ export default {
 
       // 如果用户确认删除，则返回值为字符串 confirm
       // 如果用户取消了删除，则返回值为字符串 cancel
-      console.log(confirmResult)
+      //console.log(confirmResult)
       if (confirmResult !== 'confirm') {
         return this.$message.info('已取消删除')
       }
       const result = await deleteUser(id)
       console.log(result)
       if (result.meta.status === 200) {
-          this.$message.success('删除用户成功')
-          this.getUserList()
-        } else {
-          this.$message.error('删除用户失败' + result.meta.msg)
-        }
+        this.$message.success('删除用户成功!')
+        this.getUserList()
+      } else {
+        this.$message.error('删除用户失败' + result.meta.msg)
+      }
+    },
+    async handleDialog(user) {
+      this.userInfo = user
+      const result = await getRoleList()
+      if (result.meta.status !== 200) {
+        this.$message.error('获取角色列表失败' + result.meta.msg)
+      }
+      this.rightList = result.data
+      this.isHandleDialog = true
+    },
+
+    handleDialogClose() {
+      this.selectedRoleId = ''
+      this.userInfo = {}
+    },
+
+    async handlevaildData() {
+      if(!this.selectedRoleId){
+        return  this.$message.error('请选择分配的角色')
+      }
+      const obj = {
+        rid:this.selectedRoleId
+      }
+      const result = await handleUserRight(this.userInfo.id,obj)
+       if (result.meta.status !== 200) {
+        this.$message.error('分配用户角色失败' + result.meta.msg)
+      }
+      this.$message.success('分配用户角色成功!')
+      this.getUserList()
+      this.isHandleDialog = false
     },
   },
 }

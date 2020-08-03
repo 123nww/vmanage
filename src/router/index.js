@@ -9,6 +9,8 @@ const Login = () => import('../views/login/Login')
 const Home = () => import('../views/home/Home')
 const Welcome = () => import('../views/home/Welcome')
 const Users = () => import('../views/user/Users')
+const Rights = () => import('../views/power/Rights')
+const Roles = () => import('../views/power/Roles')
 
 
 const routes = [
@@ -45,10 +47,25 @@ const routes = [
         path: '/users',
         name: Users,
         component: Users
+      },
+      {
+        path: '/rights',
+        name: Rights,
+        component: Rights
+      },
+      {
+        path: '/roles',
+        name: Roles,
+        component: Roles
       }
     ]
   }
 ]
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 const router = new VueRouter({
   routes
@@ -69,5 +86,6 @@ router.beforeEach((to, from, next) => {
   }
 
 })
+
 
 export default router
