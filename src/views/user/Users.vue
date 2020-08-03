@@ -295,12 +295,12 @@ export default {
 
       // 如果用户确认删除，则返回值为字符串 confirm
       // 如果用户取消了删除，则返回值为字符串 cancel
-      console.log(confirmResult)
+      //console.log(confirmResult)
       if (confirmResult !== 'confirm') {
         return this.$message.info('已取消删除')
       }
       const result = await deleteUser(id)
-      console.log(result)
+      //console.log(result)
       if (result.meta.status === 200) {
           this.$message.success('删除用户成功')
           this.getUserList()
