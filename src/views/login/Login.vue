@@ -26,16 +26,18 @@
 </template>
 
 <script>
-import { pwdLogin } from 'network/api/index.js'
+import { pwdLogin } from 'network/index.js'
 import { setLocalStore } from 'config/global.js'
 export default {
   name: 'Login',
   data() {
     return {
+      //表单数据
       form: {
         username: 'admin',
         password: '123456',
       },
+      //定义规则
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -49,29 +51,35 @@ export default {
     }
   },
   methods: {
+    //重置表单
     resetClick() {
       //console.log(this);
       this.$refs.loginFormRef.resetFields()
     },
+    //登录
     loginClick() {
-      this.$refs.loginFormRef.validate(async (valid) => {
+      this.$refs.loginFormRef.validate((valid) => {
         if (!valid) {
           return
         }
-        const result = await pwdLogin(this.form)
-        console.log(result)
-        if (result.meta.status === 200) {
-          this.$message({
-            message: '登录成功',
-            type: 'success',
-            showClose: true,
+        pwdLogin(this.form)
+          .then((response) => {
+            if (response.meta.status === 200) {
+              this.$message({
+                message: '登录成功',
+                type: 'success',
+                showClose: true,
+              })
+              const token = response.data.token
+              setLocalStore('token', token)
+              this.$router.push('/home')
+            } else {
+              this.$message.error('登录失败')
+            }
           })
-          const token = result.data.token
-          setLocalStore('token', token)
-          this.$router.push('/home')
-        } else {
-          this.$message.error('登录失败')
-        }
+          .catch((err) => {
+            this.$message.error(err)
+          })
       })
     },
   },
