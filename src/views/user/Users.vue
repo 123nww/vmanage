@@ -274,10 +274,7 @@ export default {
     //校验表单数据
     vaildData() {
       this.$refs.ruleForm.validate(async (vaild) => {
-        if (!vaild) {
-          this.isAddDialog = false
-          return
-        }
+        if (!vaild) return
         const result = await addUser(this.addUser)
         if (result.meta.status === 201) {
           this.$message.success('添加用户成功')
@@ -302,10 +299,7 @@ export default {
     },
     updatevaildData() {
       this.$refs.updateruleForm.validate(async (vaild) => {
-        if (!vaild) {
-          this.isUpdataDialog = false
-          return
-        }
+        if (!vaild) return
         const update = {
           email: this.updateUser.email,
           mobile: this.updateUser.mobile,

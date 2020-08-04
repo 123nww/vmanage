@@ -146,3 +146,46 @@ export function deleteRoleRights(roleId,rightId){
         method: 'DELETE'
     })
 }
+
+//获取商品分类列表
+export function getCategoryList(params){
+    return request({
+        url: 'categories/',
+        method: 'GET',
+        params:params
+    })
+}
+
+//添加分类
+export function addCategory(data){
+    return request({
+        url: 'categories',
+        method: 'POST',
+        data:data
+    })
+}
+
+//根据ID查询分类
+export function queryByIdCate(id){
+    return request({
+        url: 'categories/'+id,
+        method: 'GET'
+    })
+}
+
+//修改分类
+export function updateCate(id,data){
+    return request({
+        url: 'categories/'+id,
+        method: 'PUT',
+        data:data
+    })
+}
+
+//删除fenl
+export function deleteCate(id){
+    return request({
+        url: 'categories/'+id,
+        method: 'DELETE'
+    })
+}

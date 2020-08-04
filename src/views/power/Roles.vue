@@ -227,10 +227,8 @@ export default {
     //添加
     vaildData() {
       this.$refs.ruleForm.validate(async (vaild) => {
-        if (!vaild) {
-          this.isAddRole = false
-          return
-        }
+        console.log(vaild)
+        if (!vaild) return
         const result = await addRole(this.addRole)
         if (result.meta.status === 201) {
           this.$message.success('添加角色成功')
@@ -259,10 +257,7 @@ export default {
 
     updatevaildData() {
       this.$refs.updateruleForm.validate(async (vaild) => {
-        if (!vaild) {
-          this.isUpdataDialog = false
-          return
-        }
+        if (!vaild) return
         const obj = {
           roleName: this.updateRole.roleName,
           roleDesc: this.updateRole.roleDesc,
