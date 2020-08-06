@@ -81,7 +81,6 @@
             :props="cascaderProps"
             @change="handleChange"
             clearable
-            change-on-select
             ref="cascaderref"
           ></el-cascader>
         </el-form-item>
@@ -171,6 +170,7 @@ export default {
         label: 'cat_name',
         value: 'cat_id',
         children: 'children',
+        checkStrictly:true
       },
       cascadervalue: [],
       isUpdateCate: false,

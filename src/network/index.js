@@ -70,9 +70,9 @@ export function deleteUser(id) {
 }
 
 //分配用户角色
-export function handleUserRight(id,data){
+export function handleUserRight(id, data) {
     return request({
-        url: 'users/'+id+'/role',
+        url: 'users/' + id + '/role',
         method: 'PUT',
         data: data
     })
@@ -123,7 +123,7 @@ export function updateRole(id, data) {
 }
 
 //根据ID删除角色
-export function deleteRole(id){
+export function deleteRole(id) {
     return request({
         url: 'roles/' + id,
         method: 'DELETE'
@@ -131,61 +131,115 @@ export function deleteRole(id){
 }
 
 //角色授权
-export function handleRole(roleId,data){
+export function handleRole(roleId, data) {
     return request({
-        url: 'roles/'+roleId+'/rights',
+        url: 'roles/' + roleId + '/rights',
         method: 'POST',
-        data:data
+        data: data
     })
 }
 
 //删除角色指定权限
-export function deleteRoleRights(roleId,rightId){
+export function deleteRoleRights(roleId, rightId) {
     return request({
-        url: 'roles/'+roleId+'/rights/'+rightId,
+        url: 'roles/' + roleId + '/rights/' + rightId,
         method: 'DELETE'
     })
 }
 
 //获取商品分类列表
-export function getCategoryList(params){
+export function getCategoryList(params) {
     return request({
         url: 'categories/',
         method: 'GET',
-        params:params
+        params: params
     })
 }
 
 //添加分类
-export function addCategory(data){
+export function addCategory(data) {
     return request({
         url: 'categories',
         method: 'POST',
-        data:data
+        data: data
     })
 }
 
 //根据ID查询分类
-export function queryByIdCate(id){
+export function queryByIdCate(id) {
     return request({
-        url: 'categories/'+id,
+        url: 'categories/' + id,
         method: 'GET'
     })
 }
 
 //修改分类
-export function updateCate(id,data){
+export function updateCate(id, data) {
     return request({
-        url: 'categories/'+id,
+        url: 'categories/' + id,
         method: 'PUT',
-        data:data
+        data: data
     })
 }
 
-//删除fenl
-export function deleteCate(id){
+//删除分类
+export function deleteCate(id) {
     return request({
-        url: 'categories/'+id,
+        url: 'categories/' + id,
+        method: 'DELETE'
+    })
+}
+
+//参数列表
+export function paramList(id, sel) {
+    return request({
+        url: 'categories/' + id + '/attributes',
+        method: 'GET',
+        params: {
+            sel
+        }
+    })
+}
+
+//删除参数
+export function removeAttr(catId, attrId) {
+    return request({
+        url: 'categories/' + catId + '/attributes/' + attrId,
+        method: 'DELETE'
+    })
+}
+
+//添加动态参数或者静态属性
+export function addParams(id, data) {
+    return request({
+        url: 'categories/' + id + '/attributes',
+        method: 'POST',
+        data: data
+    })
+}
+
+//根据ID查询参数
+export function queryByIdParam(id, attrId, params) {
+    return request({
+        url: 'categories/' + id + '/attributes/' + attrId,
+        method: 'GET',
+        params: params
+    })
+}
+
+//修改参数
+export function updateParams(id, attrId, data) {
+    return request({
+        url: 'categories/' + id + '/attributes/' + attrId,
+        method: 'PUT',
+        data: data
+    })
+}
+
+//删除参数
+export function deleteParams(id, attrId){
+    return request({
+        url:'categories/'+id+'/attributes/'+attrId,
         method: 'DELETE'
     })
 }
