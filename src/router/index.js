@@ -13,6 +13,8 @@ const Rights = () => import('../views/power/Rights')
 const Roles = () => import('../views/power/Roles')
 const GoodsCategory = () => import('../views/goods/GoodsCategory')
 const GoodsParams = () => import('../views/goods/GoodsParams')
+const GoodsList = () => import('../views/goods/GoodsList')
+const AddGoods = () => import('../views/goods/AddGoods')
 
 const routes = [
   {
@@ -68,6 +70,17 @@ const routes = [
         path: '/params',
         name: GoodsParams,
         component: GoodsParams
+      } ,
+      {
+        path: '/goods',
+        name: GoodsList,
+        component: GoodsList
+      } 
+      ,
+      {
+        path: '/goods/add',
+        name: AddGoods,
+        component: AddGoods
       } 
     ]
   }

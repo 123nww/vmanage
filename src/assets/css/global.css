@@ -1,7 +1,21 @@
 /* 全局样式 */
-html,body,#app{
+html,
+body,
+#app {
     height: 100%;
     padding: 0;
     margin: 0;
     /* min-width: 1366PX; */
+}
+
+.ql-editor {
+    min-height: 300px;
+}
+
+.el-breadcrumb {
+    margin-bottom: 15px;
+}
+
+.el-steps {
+    margin: 15px 0;
 }

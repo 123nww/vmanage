@@ -248,6 +248,7 @@ export default {
       //文本框与按钮切换
       inputVisible: false,
       inputValue: '',
+     
     }
   },
   computed: {

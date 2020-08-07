@@ -145,7 +145,7 @@ import {
   updateById,
   deleteUser,
   getRoleList,
-  handleUserRight
+  handleUserRight,
 } from 'network/index'
 export default {
   name: 'User',
@@ -188,8 +188,8 @@ export default {
       isAddDialog: false,
       isUpdataDialog: false,
       isHandleDialog: false,
-      rightList:[],
-      selectedRoleId:'',
+      rightList: [],
+      selectedRoleId: '',
       //添加用户体
       addUser: {
         username: '',
@@ -261,7 +261,7 @@ export default {
       //users/:uId/state/:type
       const updateStr = await updateUser(row.id, row.mg_state)
       if (updateStr.meta.status === 200) {
-        this.$message.success('更新用户状态成功')
+        this.$message.success('更新用户状态成功! ')
       } else {
         row.mg_state = !row.mg_state
         this.$message.error('更新用户状态失败' + updateStr.meta.msg)
@@ -277,7 +277,7 @@ export default {
         if (!vaild) return
         const result = await addUser(this.addUser)
         if (result.meta.status === 201) {
-          this.$message.success('添加用户成功')
+          this.$message.success('添加用户成功! ')
           this.isAddDialog = false
           this.getUserList()
         } else {
@@ -306,7 +306,7 @@ export default {
         }
         const result = await updateById(this.updateUser.id, update)
         if (result.meta.status === 200) {
-          this.$message.success('修改用户成功')
+          this.$message.success('修改用户成功! ')
           this.isUpdataDialog = false
           this.getUserList()
         } else {
@@ -333,9 +333,9 @@ export default {
         return this.$message.info('已取消删除')
       }
       const result = await deleteUser(id)
-      console.log(result)
+      //console.log(result)
       if (result.meta.status === 200) {
-        this.$message.success('删除用户成功!')
+        this.$message.success('删除用户成功! ')
         this.getUserList()
       } else {
         this.$message.error('删除用户失败' + result.meta.msg)
@@ -357,17 +357,17 @@ export default {
     },
 
     async handlevaildData() {
-      if(!this.selectedRoleId){
-        return  this.$message.error('请选择分配的角色')
+      if (!this.selectedRoleId) {
+        return this.$message.error('请选择分配的角色')
       }
       const obj = {
-        rid:this.selectedRoleId
+        rid: this.selectedRoleId,
       }
-      const result = await handleUserRight(this.userInfo.id,obj)
-       if (result.meta.status !== 200) {
+      const result = await handleUserRight(this.userInfo.id, obj)
+      if (result.meta.status !== 200) {
         this.$message.error('分配用户角色失败' + result.meta.msg)
       }
-      this.$message.success('分配用户角色成功!')
+      this.$message.success('分配用户角色成功! ')
       this.getUserList()
       this.isHandleDialog = false
     },

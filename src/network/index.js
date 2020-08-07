@@ -243,3 +243,46 @@ export function deleteParams(id, attrId){
         method: 'DELETE'
     })
 }
+
+//获取商品数据列表
+export function getGoodsList(params){
+    return request({
+        url:'goods',
+        method: 'GET',
+        params:params
+    })
+}
+
+//删除商品
+export function deleteGood(id){
+    return request({
+        url:'goods/'+id,
+        method: 'DELETE'
+    })
+}
+
+//添加商品
+export function addGoods(data){
+    return request({
+        url:'goods',
+        method:'POST',
+        data:data
+    })
+}
+
+//根据ID查询商品信息
+export function queryGoodsById(id){
+    return request({
+        url:'goods/'+id,
+        method:'GET'
+    })
+}
+
+//修改商品
+ export function updateGoods(id,data){
+    return request({
+        url:'goods/'+id,
+        method:'PUT',
+        data:data
+    })
+ }
