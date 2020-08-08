@@ -286,3 +286,20 @@ export function queryGoodsById(id){
         data:data
     })
  }
+
+ //获取订单数据
+ export function getOrderList(params){
+    return request({
+        url:'orders',
+        method:'GET',
+        params:params
+    })
+ }
+
+ //查看物流进度
+ export function getkuaidiInfo(id){
+    return request({
+        url:'/kuaidi/'+id,
+        method:'GET'
+    })
+ }

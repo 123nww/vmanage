@@ -15,6 +15,7 @@ const GoodsCategory = () => import('../views/goods/GoodsCategory')
 const GoodsParams = () => import('../views/goods/GoodsParams')
 const GoodsList = () => import('../views/goods/GoodsList')
 const AddGoods = () => import('../views/goods/AddGoods')
+const Order = () => import('../views/order/Order')
 
 const routes = [
   {
@@ -81,6 +82,11 @@ const routes = [
         path: '/goods/add',
         name: AddGoods,
         component: AddGoods
+      } ,
+      {
+        path: '/orders',
+        name: Order,
+        component: Order
       } 
     ]
   }
